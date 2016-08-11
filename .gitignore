@@ -5,3 +5,5 @@ dist/
 .babelrc
 .editorconfig
 env/
+*.pyc
+*.db

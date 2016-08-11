@@ -8,14 +8,12 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import asklibs.sessionPickle as newSession
 from flask_sqlalchemy import SQLAlchemy
 from flask_rbac import RBAC, RoleMixin, UserMixin
-from flask_cors import CORS
 
 # Configuration
 current_path = os.path.dirname(__file__)
 client_path = os.path.abspath(os.path.join(current_path, '..', '..', 'client'))
 
 app = Flask(__name__)
-CORS(app, resources=r'*', allow_headers='Content-Type')
 app.config.from_object('config')
 rbac = RBAC(app)
 db = SQLAlchemy(app)
@@ -317,4 +315,4 @@ if __name__ == '__main__':
     rbac.set_user_loader(get_current_user)
     app.session_interface = newSession.PickleSessionInterface(path)
 
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run()
