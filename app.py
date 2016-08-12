@@ -202,7 +202,7 @@ def after_request(Response):
 @app.route('/', methods=['GET'])
 @rbac.allow(['anonymous'], methods=['GET'], with_children=False)
 def index():
-    ret_dict = {"Key1": "Value1", "Key2": "value2"}
+    ret_dict = {"ip": request.remote_addr, "scheme": request.scheme}
     return jsonify(items=ret_dict)
 
 

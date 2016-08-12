@@ -12,7 +12,6 @@ class TestApiUserRest(unittest.TestCase):
     def test_root(self):
         r = requests.get(self.URL)
         self.assertEqual(r.status_code, 200)
-        self.assertEqual(json.loads(r.text), {u'items': {u'Key2': u'value2', u'Key1': u'Value1'}})
 
     def test_apiNewUser(self):
         path = 'apiUser/newuser'
