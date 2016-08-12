@@ -60,6 +60,7 @@ class Role(db.Model, RoleMixin):
     )
 
     def __init__(self, name, description):
+        RoleMixin.__init__(self)
         self.name = name
         self.description = description
 
@@ -82,6 +83,8 @@ users_roles = db.Table(
     db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True),
     db.Column('role_id', db.Integer, db.ForeignKey('role.id'), primary_key=True)
 )
+
+rbac.set_role_model(Role)
 
 
 class User(db.Model, UserMixin):
@@ -144,6 +147,8 @@ class User(db.Model, UserMixin):
     def to_json(self):
         return dict(id=self.id, email=self.email, displayName=self.display_name)
 
+rbac.set_user_model(User)
+
 
 def create_token(user):
     payload = {
@@ -175,6 +180,8 @@ def get_current_user():
         response = jsonify(message='Token has expired')
         response.status_code = 401
         return response
+
+rbac.set_user_loader(get_current_user)
 
 
 @app.after_request
@@ -309,9 +316,5 @@ if __name__ == '__main__':
         os.chmod(path, int('700', 8))
 
     init_db()
-    rbac.set_role_model(Role)
-    rbac.set_user_model(User)
-    rbac.set_user_loader(get_current_user)
     app.session_interface = newSession.PickleSessionInterface(path)
-
     app.run()
