@@ -60,7 +60,6 @@ class Role(db.Model, RoleMixin):
     )
 
     def __init__(self, name, description):
-        RoleMixin.__init__(self)
         self.name = name
         self.description = description
 
